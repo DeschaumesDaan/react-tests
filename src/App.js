@@ -30,15 +30,24 @@ class App extends Component {
     })
   }
   render() {
+    const style = {
+      backgroundColor: 'white',
+      border: '1px solid blue',
+      padding: '8px', 
+      cursor: 'pointer',
+      hover: '0.5s'
+
+    }; // inline stylen in ReactJS
+
     return (
        <div className="App">
       <h1>Hello World,</h1>
       <h2>Click on the first line under the switch to revert to the normal state.</h2>
-      <button onClick={this.switchNameHandler.bind(this, "Lionel Messi")}>Switch</button>
+      <button style={style} onClick={this.switchNameHandler.bind(this, "Lionel Messi")}>Switch</button>
       <Person
-        name={this.state.persons[0].name} 
+        name={this.state.persons[0].name} //weergeven van de 0-rij en de name-property 
         age={this.state.persons[0].age}
-        click= {this.switchNameHandler.bind(this, "Cristiano Ronaldo")}
+        click= {this.switchNameHandler.bind(this, "Cristiano Ronaldo")} //'this' wijst naar de klasse
         changed={this.nameChangedHandler}>
       </Person>
 
