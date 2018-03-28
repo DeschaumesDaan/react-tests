@@ -45,35 +45,43 @@ class App extends Component {
 
     }; // inline stylen in ReactJS
 
+    let persons = null;
+
+    if(this.state.showPersons){
+      persons = (
+        <div>
+        <Person
+          name={this.state.persons[0].name} //weergeven van de 0-rij en de name-property 
+          age={this.state.persons[0].age}
+          click= {this.switchNameHandler.bind(this, "Cristiano Ronaldo")} //'this' wijst naar de klasse
+          changed={this.nameChangedHandler}>
+        </Person>
+  
+        <Person 
+          name={this.state.persons[1].name} 
+          age={this.state.persons[1].age}>
+        </Person>
+  
+  
+        <Person 
+        name={this.state.persons[2].name} 
+        age={this.state.persons[2].age}>
+        </Person>
+  
+        </div> 
+      );
+    }
+
     return (
        <div className="App">
       <h1>Hello World,</h1>
       <h2>Click on the first line under the switch to revert to the normal state.</h2>
       <button style={style} 
-      onClick={this.togglePersonsHandler}>Switch</button>
+      onClick={this.togglePersonsHandler}>Toggle</button>
 
-      {
-        this.state.showPersons === true?<div>
-      <Person
-        name={this.state.persons[0].name} //weergeven van de 0-rij en de name-property 
-        age={this.state.persons[0].age}
-        click= {this.switchNameHandler.bind(this, "Cristiano Ronaldo")} //'this' wijst naar de klasse
-        changed={this.nameChangedHandler}>
-      </Person>
-
-      <Person 
-        name={this.state.persons[1].name} 
-        age={this.state.persons[1].age}>
-      </Person>
-
-
-      <Person 
-      name={this.state.persons[2].name} 
-      age={this.state.persons[2].age}>
-      </Person>
-
-      </div> :null 
-    }
+      {persons}
+    
+    
      
       </div> 
     );
