@@ -34,8 +34,7 @@ class App extends Component {
       backgroundColor: 'white',
       border: '1px solid blue',
       padding: '8px', 
-      cursor: 'pointer',
-      hover: '0.5s'
+      cursor: 'pointer'
 
     }; // inline stylen in ReactJS
 
