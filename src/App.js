@@ -5,31 +5,38 @@ import Person from './Person/Person'; //state is enkel in klasse-components
 class App extends Component {
   state = {
     persons: [
-      {name: 'Daan', age: 21, },
-      {name: 'Rick', age: 49 },
-      {name: 'Sara', age: 27}
+      {id:'da',name: 'Daan', age: 21, },
+      {id: 'ri', name: 'Rick', age: 49 },
+      {id: 'sar',name: 'Sara', age: 27}
     ],
     otherState: 'some other value',
     showPersons: false
-  }
-  switchNameHandler = (newName) => {
-    this.setState({
-      persons: [
-        {name: newName, age: 21},
-        {name: 'Amélie', age: 35},
-        {name: 'Erik', age: 58}
-      ]
-    })
-  }
+    
+  } //huidige status van de data 
 
-  nameChangedHandler= (event) => {
-    this.setState({
-      persons: [
-        {name: event.target.value, age: 27},
-        {name: 'Amélie', age: 35},
-        {name: 'Erik', age: 58}
-      ]
-    })
+  nameChangedHandler= (event, id) => {
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id; 
+    }); //variabele personIndex gaat this.state.persons laten zoeken naar index, 
+
+    const person = {
+      ...this.state.persons[personIndex]
+    };
+
+    person.name = event.target.value; 
+
+    const persons = [...this.state.persons];
+    persons[personIndex] = person; 
+
+  this.setState( {persons: person} )
+  }
+ 
+
+  deletePersonHandler = (personIndex)=>{
+    //met deze functie gaan we een persoon verwijderen 
+    const persons = [...this.state.persons];
+    persons.splice(personIndex, 1); //delete 1 person out of the array
+    this.setState({persons: persons})
   }
 
   togglePersonsHandler= ()=> {
@@ -38,10 +45,12 @@ class App extends Component {
   }
   render() {
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       border: '1px solid blue',
       padding: '8px', 
-      cursor: 'pointer'
+      cursor: 'pointer',
+    
 
     }; // inline stylen in ReactJS
 
@@ -50,40 +59,46 @@ class App extends Component {
     if(this.state.showPersons){
       persons = (
         <div>
-        <Person
-          name={this.state.persons[0].name} //weergeven van de 0-rij en de name-property 
-          age={this.state.persons[0].age}
-          click= {this.switchNameHandler.bind(this, "Cristiano Ronaldo")} //'this' wijst naar de klasse
-          changed={this.nameChangedHandler}>
-        </Person>
+
+
+          {this.state.persons.map((person, index) => {
+            return <Person 
+            name={person.name} 
+            age={person.age}
+            key = {person.id} //een key als sleutel van de persoon 
+            click={() => this.deletePersonHandler(index)}
+            changed={(event) => this.nameChangedHandler(event, person.id) }/>
+          })} 
+
+
   
-        <Person 
-          name={this.state.persons[1].name} 
-          age={this.state.persons[1].age}>
-        </Person>
   
-  
-        <Person 
-        name={this.state.persons[2].name} 
-        age={this.state.persons[2].age}>
-        </Person>
+       
   
         </div> 
       );
+
+      style.backgroundColor = "red";
+    }
+    let classes = [];
+    if(this.state.persons.length <= 2){
+      classes.push('red'); 
+    }
+    if(this.state.persons.length <= 1 ){
+      classes.push('bold');
     }
 
     return (
+      <StyleRoot>
        <div className="App">
       <h1>Hello World,</h1>
       <h2>Click on the first line under the switch to revert to the normal state.</h2>
+      <p className={classes.join(' ')}>This is working!</p>
       <button style={style} 
-      onClick={this.togglePersonsHandler}>Toggle</button>
-
+      onClick={this.togglePersonsHandler}>Toggle Persons</button>
       {persons}
-    
-    
-     
       </div> 
+      </StyleRoot>
     );
     
   }
