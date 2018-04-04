@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person'; //state is enkel in klasse-components
+import Errorboundary from './Errorboundary/Errorboundary';
 
 class App extends Component {
   state = {
@@ -62,7 +63,7 @@ class App extends Component {
 
 
           {this.state.persons.map((person, index) => {
-            return <Person 
+            return <Errorboundary><Person 
             name={person.name} 
             age={person.age}
             key = {person.id} //een key als sleutel van de persoon 
@@ -89,7 +90,7 @@ class App extends Component {
     }
 
     return (
-      <StyleRoot>
+     
        <div className="App">
       <h1>Hello World,</h1>
       <h2>Click on the first line under the switch to revert to the normal state.</h2>
@@ -98,7 +99,7 @@ class App extends Component {
       onClick={this.togglePersonsHandler}>Toggle Persons</button>
       {persons}
       </div> 
-      </StyleRoot>
+      
     );
     
   }
